@@ -7,48 +7,48 @@ call plug#begin('~/.vim/plugged')
   "Plug 'nvim-treesitter/nvim-treesitter', {'do': ':TSUpdate'}  
   "Plug 'edkolev/tmuxline.vim'
   "Plug 'vim-airline/vim-airline'
+  "Plug 'github/copilot.vim'
   Plug 'ryanoasis/vim-devicons'
   Plug 'sainnhe/everforest'
   Plug 'sheerun/vim-polyglot'
   Plug 'Yggdroot/indentLine'
   Plug 'itchyny/lightline.vim'
   Plug 'junegunn/fzf.vim' " needed for previews
-  Plug 'yuki-yano/fzf-preview.vim', { 'branch': 'release/rpc' }
-  Plug 'junegunn/fzf', { 'dir': '~/.fzf','do': './install --all'}
-  Plug 'neoclide/coc.nvim', {'do': 'yarn install --frozen-lockfile'}
+  Plug 'neoclide/coc.nvim', { 'branch': 'release' }
+  Plug 'junegunn/fzf', { 'do': { -> fzf#install() } }
+  Plug 'yuki-yano/fzf-preview.vim', { 'branch': 'release/remote', 'do': ':UpdateRemotePlugins' }
 call plug#end()
 "/*}*/
 "set configurations /*{*/ 
-set encoding=utf-8
 set termguicolors     " enable true colors support
-set t_Co=256
 set title
 set hidden
 set nobackup
-set nowritebackup
 set cursorline
 set smartcase
 set linebreak
 set ignorecase
+set noshowmode
 set relativenumber
+set nowritebackup
+set splitbelow splitright
+set t_Co=256
 set mouse=a
 set history=200
-set shortmess+=c
-set updatetime=300
-set foldmethod=marker
-set foldmarker=/*{*/,/*}*/
 set foldcolumn=1
-set foldlevelstart=99
+set shortmess+=c
 set showtabline=2
-set titlestring=VIM:\ %-25.55F\ %a%r%m titlelen=70
-"set spell spelllang=en
+set updatetime=300
+set encoding=utf-8
+set foldmethod=marker
+set foldlevelstart=99
+set foldmarker=/*{*/,/*}*/
 set timeoutlen=1000 ttimeoutlen=0
 set tabstop=3 softtabstop=2 shiftwidth=2 expandtab
+set titlestring=VIM:\ %-25.55F\ %a%r%m titlelen=70
+"set spell spelllang=en
 "set laststatus=0
-set noshowmode
-set shortmess+=c
-set splitbelow splitright
-set statusline^=%{get(g:,'coc_git_status','')}%{get(b:,'coc_git_status','')}%{get(b:,'coc_git_blame','')}
+"set statusline^=%{get(g:,'coc_git_status','')}%{get(b:,'coc_git_status','')}%{get(b:,'coc_git_blame','')}
 "set statusline=[%n]%<%f\ %y%h%m%r%=%-14.(%l/%L:%c%V%)\%p%%
 "set statusline=%{coc#status()}%{get(b:,'coc_current_function','')}
 syntax enable
@@ -63,9 +63,11 @@ endif
 "let configurations /*{*/
 "let g:indentLine_char = ''
 "let g:indentLine_first_char = ''
-let g:indentLine_char_list = ['|', '¦', '┆', '┊']
+let g:indentLine_char_list = ['']
 let g:indentLine_showFirstIndentLevel = 1
 let g:indentLine_setColors = -1
+let g:fzf_preview_use_dev_icons = 1
+let g:fzf_preview_command = 'batcat --color=always --plain {-1}'
 " Enable true color 启用终端24位色
 if exists('+termguicolors')
   let &t_8f = "\<Esc>[38;2;%lu;%lu;%lum"
@@ -81,20 +83,32 @@ endif
 		\ 'component_function' : {
       \ 'filetype' : 'MyFiletype',
       \ 'fileformat' : 'MyFileformat',
-      \ 'blame' : 'LightlineGitBlame',
 		\ },
       \ 'active' : {
-        \ 'left' : [ [ 'mode', 'paste' ],
-		    \           [ 'git', 'diagnostic', 'cocstatus', 'readonly', 'filename', 'method', 'modified' ] ],
-		    \ 'right' : [ [ 'lineinfo' ], [ 'percent', ],[ 'filetype' ], [ 'blame' ] ],
+        \ 'left' : [ [ 'mode', 'paste'],
+		    \           [ 'readonly',  'method','relativepath', 'modified' ] ],
+		    \ 'right' : [ [ 'lineinfo' ], [ 'percent', ],[ 'filetype' ] ],
          \ },
-		\ 'separator': { 'left': '', 'right': '' },
-		\ 'subseparator': { 'left': '', 'right': '' },
-      \ 'tabline' : {
-   		    \ 'left': [ [ 'tabs', 'filetype' ] ],
-		    \ 'right': [ [ 'close' ] ]       
-         \ }
+		\ 'separator': { 'left': '', 'right': '' },
+		\ 'subseparator': { 'left': '', 'right': '' },
 		\ } 
+
+     
+		let g:lightline.mode_map = {
+		    \ 'n' : 'N',
+		    \ 'i' : 'I',
+		    \ 'R' : 'R',
+		    \ 'v' : 'V',
+		    \ 'V' : 'V-L',
+		    \ "\<C-v>": 'V-B',
+		    \ 'c' : 'C',
+		    \ 's' : 'S',
+		    \ 'S' : 'S-L',
+		    \ "\<C-s>": 'S-B',
+		    \ 't': 'T',
+		    \ }
+
+"filetype functions for using devicons on lightline
     function! MyFiletype()
     return winwidth(0) > 70 ? (strlen(&filetype) ? &filetype . ' ' . WebDevIconsGetFileTypeSymbol() : 'no ft') : ''
   endfunction
@@ -135,7 +149,7 @@ colorscheme everforest
 let g:coc_global_extensions=['coc-marketplace', 'coc-webpack', 'coc-tslint', 'coc-tabnine', 'coc-tslint-plugin', 'coc-simple-react-snippets', 'coc-snippets', 'coc-html', 'coc-rls', 'coc-pairs',  'coc-prettier', 'coc-json', 'coc-highlight', 'coc-emmet', 'coc-spell-checker', 'coc-tsserver', 'coc-word', 'coc-css', 'coc-smartf', 'coc-fzf-preview', 'coc-explorer', 'coc-rust-analyzer']
 
 " "/*}*/
-" coc neovim / fzf-preview / coc snippets setup configurations/*{*/
+" coc neovim tab for selection and enter for select/*{*/
 " Use tab for trigger completion with characters ahead and navigate.
 " NOTE: Use command ':verbose imap <tab>' to make sure tab is not mapped by
 " other plugin before putting this into your config.
@@ -153,11 +167,12 @@ endfunction
 " format on enter, <cr> could be remapped by other vim plugin
 inoremap <silent><expr> <cr> pumvisible() ? coc#_select_confirm()
                               \: "\<C-g>u\<CR>\<c-r>=coc#on_enter()\<CR>"
-
+" /*}*/
+" shortcuts keys list/*{*/
 " Use `[g` and `]g` to navigate diagnostics
 " Use `:CocDiagnostics` to get all diagnostics of current buffer in location list.
-nmap <silent> [g <Plug>(coc-diagnostic-prev)
-nmap <silent> ]g <Plug>(coc-diagnostic-next)
+"nmap <silent> [g <Plug>(coc-diagnostic-prev)
+"nmap <silent> ]g <Plug>(coc-diagnostic-next)
 
 " GoTo code navigation.
 nmap <silent> gd <Plug>(coc-definition)
@@ -166,7 +181,23 @@ nmap <silent> gi <Plug>(coc-implementation)
 nmap <silent> gr <Plug>(coc-references)
 " Use K to show documentation in preview window.
 nnoremap <silent> K :call <SID>show_documentation()<CR>
+nmap F <Plug>(coc-smartf-backward)
+" Symbol renaming.
+nmap <space>rn <Plug>(coc-rename)
+" Show all diagnostics.
+nnoremap <silent><nowait> <space>a  :<C-u>CocList diagnostics<cr>
+" fzf preview keybinding
+nnoremap <silent><nowait> <space>f :Files<cr>
+nnoremap <silent><nowait> <space>b :Buffers<cr>
+nnoremap <silent><nowait> <space>r :Rg<cr>
+nnoremap <silent><nowait> <space>m :Marks<cr>
+" press <esc> to cancel.
+nmap f <Plug>(coc-smartf-forward)
+nmap F <Plug>(coc-smartf-backward)
+nnoremap <silent><nowait> <space>e  :CocCommand explorer<CR>
 
+"/*}*/
+"command functions list/*{*/
 function! s:show_documentation()
   if (index(['vim','help'], &filetype) >= 0)
     execute 'h '.expand('<cword>')
@@ -176,44 +207,13 @@ function! s:show_documentation()
     execute '!' . &keywordprg . " " . expand('<cword>')
   endif
 endfunction
-
 " Highlight the symbol and its references when holding the cursor.
 autocmd CursorHold * silent call CocActionAsync('highlight')
-
-" Symbol renaming.
-nmap <space>rn <Plug>(coc-rename)
-
-
-" fzf preview keybinding
-nnoremap <silent> <space>f :Files<cr>
-nnoremap <silent> <space>b :Buffers<cr>
-nnoremap <silent> <space>r :Rg<cr>
-
-" press <esc> to cancel.
-nmap f <Plug>(coc-smartf-forward)
-nmap F <Plug>(coc-smartf-backward)
 augroup Smartf
 autocmd User SmartfEnter :hi Conceal ctermfg=220 guifg=#90f49c
 autocmd User SmartfLeave :hi Conceal ctermfg=239 guifg=#504945
 augroup end
-"augroup TabColors
-"  autocmd ColorScheme :hi TabLineSel guifg=LightGreen guibg=NONE
-"augroup END
-augroup mygroup
-autocmd!
-" Setup formatexpr specified filetype(s).
-autocmd FileType typescript,json setl formatexpr=CocAction('formatSelected')
-" Update signature help on jump placeholder.
-autocmd User CocJumpPlaceholder call CocActionAsync('showSignatureHelp')
-augroup end
 
-" Symbol renaming.
-nmap <space>rn <Plug>(coc-rename)
-" Show all diagnostics.
-nnoremap <silent><nowait> <space>a  :<C-u>CocList diagnostics<cr>
-nnoremap <silent><nowait> <space>e  :CocCommand explorer<CR>
-" provide custom statusline: lightline.vim, vim-airline.
-set statusline^=%{coc#status()}%{get(b:,'coc_current_function','')}
 "auto save vim folds
 " Save and restore manual folds when we exit a file
 augroup savefolds
@@ -221,4 +221,4 @@ augroup savefolds
 au BufWinLeave *.* mkview
 au BufWinEnter *.* silent loadview
 augroup end
-"/*}*/s/*}*/
+"/*}*/
