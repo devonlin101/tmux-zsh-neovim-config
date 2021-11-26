@@ -1,30 +1,23 @@
 "vim plug plugin ######/*{*/
 call plug#begin('~/.vim/plugged') 
-  "Plug 'rakr/vim-one'
   "Plug 'tpope/vim-fugitive'
- "Plug 'ayu-theme/ayu-vim' " or other package manager
-  "Plug 'vim-airline/vim-airline-themes'
   "Plug 'nvim-treesitter/nvim-treesitter', {'do': ':TSUpdate'}  
-  "Plug 'edkolev/tmuxline.vim'
-  "Plug 'vim-airline/vim-airline'
-  "Plug 'github/copilot.vim'
-  Plug 'ryanoasis/vim-devicons'
+  Plug 'honza/vim-snippets'
   Plug 'sainnhe/everforest'
   Plug 'sheerun/vim-polyglot'
-  Plug 'Yggdroot/indentLine'
   Plug 'itchyny/lightline.vim'
+  Plug 'lukas-reineke/indent-blankline.nvim'
   Plug 'junegunn/fzf.vim' " needed for previews
   Plug 'neoclide/coc.nvim', { 'branch': 'release' }
   Plug 'junegunn/fzf', { 'do': { -> fzf#install() } }
-  Plug 'yuki-yano/fzf-preview.vim', { 'branch': 'release/remote', 'do': ':UpdateRemotePlugins' }
 call plug#end()
 "/*}*/
 "set configurations /*{*/ 
+"set cursorline
 set termguicolors     " enable true colors support
 set title
 set hidden
 set nobackup
-set cursorline
 set smartcase
 set linebreak
 set ignorecase
@@ -61,28 +54,26 @@ else
 endif
 "/*}*/
 "let configurations /*{*/
-"let g:indentLine_char = ''
-"let g:indentLine_first_char = ''
-let g:indentLine_char_list = ['']
-let g:indentLine_showFirstIndentLevel = 1
-let g:indentLine_setColors = -1
-let g:fzf_preview_use_dev_icons = 1
-let g:fzf_preview_command = 'batcat --color=always --plain {-1}'
-" Enable true color 启用终端24位色
-if exists('+termguicolors')
-  let &t_8f = "\<Esc>[38;2;%lu;%lu;%lum"
-  let &t_8b = "\<Esc>[48;2;%lu;%lu;%lum"
-  set termguicolors
-endif
+
+" function set lightline statusbar and tabline background to transparent
+autocmd VimEnter * call SetupLightlineColors()
+function SetupLightlineColors() abort
+  " transparent background in statusbar
+  let l:palette = lightline#palette()
+
+  let l:palette.normal.middle = [ [ 'NONE', 'NONE', 'NONE', 'NONE' ] ]
+  let l:palette.inactive.middle = l:palette.normal.middle
+  let l:palette.tabline.middle = l:palette.normal.middle
+
+  call lightline#colorscheme()
+endfunction
+
+
 "lightline configurations
      let g:lightline = {
            \'colorscheme':'everforest',
 		\ 'component': {
-		\   'lineinfo': ' %3l:%-2v',
-		\ },
-		\ 'component_function' : {
-      \ 'filetype' : 'MyFiletype',
-      \ 'fileformat' : 'MyFileformat',
+		\   'lineinfo':' %3l:%-2v',
 		\ },
       \ 'active' : {
         \ 'left' : [ [ 'mode', 'paste'],
@@ -91,11 +82,8 @@ endif
          \ },
 		\ 'separator': { 'left': '', 'right': '' },
 		\ 'subseparator': { 'left': '', 'right': '' },
-		\ } 
-
-     
-		let g:lightline.mode_map = {
-		    \ 'n' : 'N',
+      \ 'mode_map': {
+   		    \ 'n' : 'N',
 		    \ 'i' : 'I',
 		    \ 'R' : 'R',
 		    \ 'v' : 'V',
@@ -106,47 +94,23 @@ endif
 		    \ 'S' : 'S-L',
 		    \ "\<C-s>": 'S-B',
 		    \ 't': 'T',
-		    \ }
+       \ }
+		\ } 
 
-"filetype functions for using devicons on lightline
-    function! MyFiletype()
-    return winwidth(0) > 70 ? (strlen(&filetype) ? &filetype . ' ' . WebDevIconsGetFileTypeSymbol() : 'no ft') : ''
-  endfunction
-  
-  function! MyFileformat()
-    return winwidth(0) > 70 ? (&fileformat . ' ' . WebDevIconsGetFileFormatSymbol()) : ''
-  endfunction
-  function! LightlineGitBlame() abort
-  let blame = get(b:, 'coc_git_blame', '')
-  " return blame
-  return winwidth(0) > 120 ? blame : ''
-endfunction
-
-"tmuxline setup
- "" let g:tmuxline_preset = {
- ""       \'a'    : '#S',
- ""       \'b'    : '%R',
- ""       \'c'    : [ '#{sysstat_mem} #[fg=blue]#{sysstat_ntemp} #[fg=green]\ufa51#{upload_speed}' ],
- ""       \'win'  : [ '#I', '#W' ],
- ""       \'cwin' : [ '#I', '#W', '#F' ],
- ""       \'x'    : [ "#[fg=green]#{download_speed} \uf6d9 #[fg=blue]#{sysstat_itemp} #{sysstat_cpu}" ],
- ""       \'y'    : [ '%a' ],
- ""       \'z'    : '#H #{prefix_highlight}'
- ""       \}
-"let g:airline#extension#tmuxline#enabled = 1
-"let g:airline_powerline_fonts = 1
-"let g:airline#extensions#whitespace#enabled = 0
 "let g:everforest_diagnostic_text_highlight = 1
 "let g:everforest_diagnostic_line_highlight = 1
 "let g:everforest_diagnostic_virtual_text = 'colored'
-let g:everforest_background = 'soft' " 'hard', 'medium', 'soft' 
+"let g:everforest_sign_column_background = 'none'
+"let g:everforest_show_eob=0
+let g:everforest_background = 'soft' " 'hard', 'medium', '' 
 let g:everforest_enable_italic = 1
-let g:everforest_better_performance = 1
 let g:everforest_current_word = 'bold'
+let g:everforest_better_performance = 1
+let g:everforest_transparent_background = 1
 "let ayucolor = 'mirage'
 colorscheme everforest
 
-let g:coc_global_extensions=['coc-marketplace', 'coc-webpack', 'coc-tslint', 'coc-tabnine', 'coc-tslint-plugin', 'coc-simple-react-snippets', 'coc-snippets', 'coc-html', 'coc-rls', 'coc-pairs',  'coc-prettier', 'coc-json', 'coc-highlight', 'coc-emmet', 'coc-spell-checker', 'coc-tsserver', 'coc-word', 'coc-css', 'coc-smartf', 'coc-fzf-preview', 'coc-explorer', 'coc-rust-analyzer']
+let g:coc_global_extensions=['coc-git', 'coc-marketplace', 'coc-webpack', 'coc-tslint', 'coc-tabnine', 'coc-tslint-plugin', 'coc-simple-react-snippets', 'coc-snippets', 'coc-html', 'coc-rls', 'coc-pairs',  'coc-prettier', 'coc-json', 'coc-highlight', 'coc-emmet', 'coc-spell-checker', 'coc-tsserver', 'coc-word', 'coc-css', 'coc-smartf', 'coc-fzf-preview', 'coc-explorer', 'coc-rust-analyzer']
 
 " "/*}*/
 " coc neovim tab for selection and enter for select/*{*/
@@ -167,6 +131,7 @@ endfunction
 " format on enter, <cr> could be remapped by other vim plugin
 inoremap <silent><expr> <cr> pumvisible() ? coc#_select_confirm()
                               \: "\<C-g>u\<CR>\<c-r>=coc#on_enter()\<CR>"
+
 " /*}*/
 " shortcuts keys list/*{*/
 " Use `[g` and `]g` to navigate diagnostics
@@ -182,8 +147,9 @@ nmap <silent> gr <Plug>(coc-references)
 " Use K to show documentation in preview window.
 nnoremap <silent> K :call <SID>show_documentation()<CR>
 nmap F <Plug>(coc-smartf-backward)
+xmap <silent><nowait> <space>x  <Plug>(coc-convert-snippet)
 " Symbol renaming.
-nmap <space>rn <Plug>(coc-rename)
+nmap ;rn <Plug>(coc-rename)
 " Show all diagnostics.
 nnoremap <silent><nowait> <space>a  :<C-u>CocList diagnostics<cr>
 " fzf preview keybinding
@@ -191,10 +157,15 @@ nnoremap <silent><nowait> <space>f :Files<cr>
 nnoremap <silent><nowait> <space>b :Buffers<cr>
 nnoremap <silent><nowait> <space>r :Rg<cr>
 nnoremap <silent><nowait> <space>m :Marks<cr>
+nnoremap <silent><nowait> <space>h :History<cr>
+nnoremap <silent><nowait> <space>d :CocCommand fzf-preview.CocDiagnostics<cr>
+nnoremap <silent><nowait> <space>s :CocCommand snippets.editSnippets<cr>
+nnoremap <silent><nowait> <space>y  :<C-u>CocList -A --normal yank<cr>
+nnoremap <silent><nowait> <space>e  :CocCommand explorer<CR>
+
 " press <esc> to cancel.
 nmap f <Plug>(coc-smartf-forward)
 nmap F <Plug>(coc-smartf-backward)
-nnoremap <silent><nowait> <space>e  :CocCommand explorer<CR>
 
 "/*}*/
 "command functions list/*{*/
@@ -214,11 +185,12 @@ autocmd User SmartfEnter :hi Conceal ctermfg=220 guifg=#90f49c
 autocmd User SmartfLeave :hi Conceal ctermfg=239 guifg=#504945
 augroup end
 
-"auto save vim folds
-" Save and restore manual folds when we exit a file
-augroup savefolds
+autocmd BufWinEnter *.* hi CocExplorerNormalFloat guibg=default
+autocmd BufWinLeave *.* hi CocExplorerNormalFloat guibg=default
+
+augroup remember_folds
   autocmd!
-au BufWinLeave *.* mkview
-au BufWinEnter *.* silent loadview
-augroup end
+  autocmd BufWinLeave *.* mkview
+  autocmd BufWinEnter *.* silent! loadview
+augroup END
 "/*}*/
