@@ -13,3 +13,4 @@ df -h;
 free -m;
 logo-ls;
 neofetch
+

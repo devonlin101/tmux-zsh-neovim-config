@@ -82,17 +82,17 @@ endfunction
 		\ 'separator': { 'left': '', 'right': '' },
 		\ 'subseparator': { 'left': '', 'right': '' },
       \ 'mode_map': {
-   		    \ 'n' : 'N',
-		    \ 'i' : 'I',
-		    \ 'R' : 'R',
-		    \ 'v' : 'V',
-		    \ 'V' : 'V-L',
-		    \ "\<C-v>": 'V-B',
-		    \ 'c' : 'C',
-		    \ 's' : 'S',
-		    \ 'S' : 'S-L',
-		    \ "\<C-s>": 'S-B',
-		    \ 't': 'T',
+   		    \ 'n' : '',
+		    \ 'i' : '',
+		    \ 'R' : ' ',
+		    \ 'v' : ' ',
+		    \ 'V' : ' ',
+		    \ "\<C-v>": ' ',
+		    \ 'c' : '',
+		    \ 's' : ' ',
+		    \ 'S' : ' ',
+		    \ "\<C-s>": ' ',
+		    \ 't': '',
        \ }
 		\ } 
 
@@ -108,7 +108,7 @@ let g:everforest_better_performance = 1
 let g:everforest_transparent_background = 1
 colorscheme everforest
 
-let g:coc_global_extensions=['coc-git', 'coc-marketplace', 'coc-webpack', 'coc-tslint', 'coc-tabnine', 'coc-tslint-plugin', 'coc-simple-react-snippets', 'coc-snippets', 'coc-html', 'coc-rls', 'coc-pairs',  'coc-prettier', 'coc-json', 'coc-highlight', 'coc-emmet', 'coc-spell-checker', 'coc-tsserver', 'coc-word', 'coc-css', 'coc-smartf', 'coc-fzf-preview', 'coc-explorer', 'coc-rust-analyzer']
+let g:coc_global_extensions=['coc-git', 'coc-cssmodules', 'coc-marketplace', 'coc-webpack',  'coc-tabnine', 'coc-tslint-plugin', 'coc-simple-react-snippets', 'coc-snippets', 'coc-html', 'coc-rls', 'coc-pairs',  'coc-prettier', 'coc-json', 'coc-highlight', 'coc-emmet', 'coc-spell-checker', 'coc-tsserver', 'coc-word', 'coc-css', 'coc-smartf', 'coc-fzf-preview', 'coc-explorer', 'coc-rust-analyzer']
 
 " "/*}*/
 " shortcuts keys list/*{*/
@@ -192,3 +192,4 @@ augroup remember_folds
   autocmd BufWinEnter *.* silent! loadview
 augroup END
 "/*}*/
+"

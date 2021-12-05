@@ -109,7 +109,7 @@ source $ZSH/oh-my-zsh.sh
 # alias zshconfig="mate ~/.zshrc"
 # alias ohmyzsh="mate ~/.oh-my-zsh"
 alias n='nvim'
-alias c='clear'
+alias c='reset'
 alias s='source'
 alias t='tmux'
 alias ls='logo-ls'
