@@ -1,15 +1,15 @@
 "vim plug plugin ######/*{*/
 call plug#begin('~/.vim/plugged') 
   "Plug 'tpope/vim-fugitive'
-  "Plug 'nvim-treesitter/nvim-treesitter', {'do': ':TSUpdate'}  
   Plug 'honza/vim-snippets'
   Plug 'sainnhe/everforest'
-  Plug 'sheerun/vim-polyglot'
   Plug 'itchyny/lightline.vim'
+  Plug 'preservim/nerdcommenter'
   Plug 'lukas-reineke/indent-blankline.nvim'
   Plug 'junegunn/fzf.vim' " needed for previews
   Plug 'neoclide/coc.nvim', { 'branch': 'release' }
   Plug 'junegunn/fzf', { 'do': { -> fzf#install() } }
+  Plug 'nvim-treesitter/nvim-treesitter', {'do': ':TSUpdate'}  " We recommend updating the parsers on update
 call plug#end()
 "/*}*/
 "set configurations /*{*/ 
@@ -33,7 +33,8 @@ set shortmess+=c
 set showtabline=2
 set updatetime=300
 set encoding=utf-8
-set foldmethod=marker
+set foldmethod=expr
+set foldexpr=nvim_treesitter#foldexpr()
 set foldlevelstart=99
 set foldmarker=/*{*/,/*}*/
 set timeoutlen=1000 ttimeoutlen=0
@@ -124,6 +125,8 @@ nmap <silent> gi <Plug>(coc-implementation)
 nmap <silent> gr <Plug>(coc-references)
 " Use K to show documentation in preview window.
 nnoremap <silent> K :call <SID>show_documentation()<CR>
+nnoremap <silent><nowait> <cr> o<Esc>
+nnoremap <silent><nowait> <Esc><Esc> :nohl<cr>
 nmap F <Plug>(coc-smartf-backward)
 xmap <silent><nowait> <space>x  <Plug>(coc-convert-snippet)
 " Symbol renaming.
@@ -192,4 +195,35 @@ augroup remember_folds
   autocmd BufWinEnter *.* silent! loadview
 augroup END
 "/*}*/
-"
+
+lua <<EOF
+require'nvim-treesitter.configs'.setup {
+  highlight = {
+    enable = true,
+    custom_captures = {
+      -- Highlight the @foo.bar capture group with the "Identifier" highlight group.
+      ["foo.bar"] = "Identifier",
+    },
+    -- Setting this to true will run `:h syntax` and tree-sitter at the same time.
+    -- Set this to `true` if you depend on 'syntax' being enabled (like for indentation).
+    -- Using this option may slow down your editor, and you may see some duplicate highlights.
+    -- Instead of true it can also be a list of languages
+    additional_vim_regex_highlighting = false,
+  },
+require("indent_blankline").setup {
+    -- for example, context is off by default, use this to turn it on
+    --context_char = '┃',
+     space_char_blankline = " ",
+    show_current_context = true,
+    show_current_context_start = true,
+     context_patterns = {
+    "class", "return", "function", "method", "^if", "^while", "jsx_element", "^for", "^object",
+    "^table", "block", "arguments", "if_statement", "else_clause", "jsx_element",
+    "jsx_self_closing_element", "try_statement", "catch_clause", "import_statement",
+    "operation_type"
+  }
+}
+}
+EOF
+
+
