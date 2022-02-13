@@ -13,6 +13,7 @@ export ZSH="/home/devonlin101/.oh-my-zsh"
 ZSH_TMUX_AUTOSTART=true
 ZSH_TMUX_AUTOSTART_ONCE=true
 ZSH_TMUX_AUTOCONNECT=true
+VI_MODE_SET_CURSOR=true
 # Set name of the theme to load --- if set to "random", it will
 # load a random theme each time oh-my-zsh is loaded, in which case,
 # to know which specific one was loaded, run: echo $RANDOM_THEME
@@ -79,7 +80,7 @@ ZSH_THEME="powerlevel10k/powerlevel10k"
 # Custom plugins may be added to $ZSH_CUSTOM/plugins/
 # Example format: plugins=(rails git textmate ruby lighthouse)
 # Add wisely, as too many plugins slow down shell startup.
-plugins=(git tmux zsh-z zsh-autosuggestions zsh-syntax-highlighting)
+plugins=(git tmux vi-mode zsh-z zsh-autosuggestions zsh-syntax-highlighting)
 
 source $ZSH/oh-my-zsh.sh
 

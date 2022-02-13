@@ -5,6 +5,7 @@ call plug#begin('~/.vim/plugged')
   Plug 'sainnhe/everforest'
   Plug 'itchyny/lightline.vim'
   Plug 'preservim/nerdcommenter'
+  Plug 'pantharshit00/vim-prisma'
   Plug 'lukas-reineke/indent-blankline.nvim'
   Plug 'junegunn/fzf.vim' " needed for previews
   Plug 'neoclide/coc.nvim', { 'branch': 'release' }
@@ -109,7 +110,7 @@ let g:everforest_better_performance = 1
 let g:everforest_transparent_background = 1
 colorscheme everforest
 
-let g:coc_global_extensions=['coc-git', 'coc-cssmodules', 'coc-marketplace', 'coc-webpack',  'coc-tabnine', 'coc-tslint-plugin', 'coc-simple-react-snippets', 'coc-snippets', 'coc-html', 'coc-rls', 'coc-pairs',  'coc-prettier', 'coc-json', 'coc-highlight', 'coc-emmet', 'coc-spell-checker', 'coc-tsserver', 'coc-word', 'coc-css', 'coc-smartf', 'coc-fzf-preview', 'coc-explorer', 'coc-rust-analyzer']
+let g:coc_global_extensions=['coc-git', 'coc-cssmodules', 'coc-marketplace', 'coc-prisma', 'coc-webpack',  'coc-tabnine', 'coc-tslint-plugin', 'coc-simple-react-snippets', 'coc-snippets', 'coc-html', 'coc-rls', 'coc-pairs',  'coc-prettier', 'coc-json', 'coc-highlight', 'coc-emmet', 'coc-spell-checker', 'coc-tsserver', 'coc-word', 'coc-css', 'coc-smartf', 'coc-fzf-preview', 'coc-explorer', 'coc-rust-analyzer']
 
 " "/*}*/
 " shortcuts keys list/*{*/
@@ -195,7 +196,7 @@ augroup remember_folds
   autocmd BufWinEnter *.* silent! loadview
 augroup END
 "/*}*/
-
+"lua config/*{*/
 lua <<EOF
 require'nvim-treesitter.configs'.setup {
   highlight = {
@@ -225,5 +226,5 @@ require("indent_blankline").setup {
 }
 }
 EOF
-
+"/*}*/
 

@@ -11,6 +11,7 @@ sudo apt-get autoclean -y;
 sudo apt-get autoremove -y;
 df -h;
 free -m;
-logo-ls;
+snap list --all;
+sudo systemctl status postgresql;
 neofetch
 
