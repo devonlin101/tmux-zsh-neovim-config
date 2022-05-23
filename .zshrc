@@ -80,7 +80,7 @@ ZSH_THEME="powerlevel10k/powerlevel10k"
 # Custom plugins may be added to $ZSH_CUSTOM/plugins/
 # Example format: plugins=(rails git textmate ruby lighthouse)
 # Add wisely, as too many plugins slow down shell startup.
-plugins=(git tmux vi-mode zsh-z zsh-autosuggestions zsh-syntax-highlighting)
+plugins=(git tmux vi-mode dirhistory zsh-z web-search zsh-autosuggestions zsh-syntax-highlighting)
 
 source $ZSH/oh-my-zsh.sh
 
@@ -133,3 +133,9 @@ eval "`fnm env`"
 export FZF_DEFAULT_COMMAND="find -L"
 source ~/.local/share/icons-in-terminal/icons_bash.sh
 
+export VOLTA_HOME="$HOME/.volta"
+export PATH="$VOLTA_HOME/bin:$PATH"
+
+# fnm
+export PATH=/home/devonlin101/.fnm:$PATH
+eval "`fnm env`"

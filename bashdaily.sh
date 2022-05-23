@@ -12,6 +12,6 @@ sudo apt-get autoremove -y;
 df -h;
 free -m;
 snap list --all;
-sudo systemctl status postgresql;
 neofetch
+date
 
