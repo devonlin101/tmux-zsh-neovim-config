@@ -14,6 +14,7 @@ return require('packer').startup(function()
   use 'lewis6991/gitsigns.nvim'
   use 'wbthomason/packer.nvim'
   use 'sainnhe/everforest'
+  use 'numToStr/Comment.nvim'
   use {'neoclide/coc.nvim', branch = 'release'}
   use {
         'nvim-treesitter/nvim-treesitter',
@@ -24,6 +25,13 @@ return require('packer').startup(function()
   requires = { 'kyazdani42/nvim-web-devicons' }
 }
   use {'akinsho/bufferline.nvim', tag = "v2.*", requires = 'kyazdani42/nvim-web-devicons'}
+  use {
+    'kyazdani42/nvim-tree.lua',
+    requires = {
+      'kyazdani42/nvim-web-devicons', -- optional, for file icon
+    },
+    tag = 'nightly' -- optional, updated every week. (see issue #1193)
+}
   --use "williamboman/nvim-lsp-installer"
   --use 'kyazdani42/nvim-web-devicons'
   --use 'windwp/nvim-autopairs'
@@ -32,11 +40,6 @@ return require('packer').startup(function()
   --use 'hrsh7th/nvim-cmp' -- Autocompletion plugin
   --use 'saadparwaiz1/cmp_luasnip' -- Snippets source for nvim-cmp
   --use 'L3MON4D3/LuaSnip' -- Snippets plugin
---  use {                                              -- filesystem navigation
---    'kyazdani42/nvim-tree.lua',
- --   requires = 'kyazdani42/nvim-web-devicons',      -- filesystem icons
-  --  tag = 'nightly'     --optional, updated every week. (see issue #1993)
-  --}
   
 end)
 

@@ -35,8 +35,9 @@ opt.splitbelow = true            -- bool: Place new window below the current one
 opt.foldmethod='expr'
 opt.foldexpr='nvim_treesitter#foldexpr()'
 
-
-  opt.mouse='a'
+opt.mouse='a'
+opt.hidden = true
+opt.linebreak = true
 opt.hidden = true
 opt.timeoutlen = 1000
 opt.updatetime = 300
