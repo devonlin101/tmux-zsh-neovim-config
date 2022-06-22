@@ -24,15 +24,13 @@ require'nvim-tree'.setup {
 }
 require("bufferline").setup{
   options = {
-    numbers = "buffer_id"
   }
 }
 require("indent_blankline").setup {
     show_current_context = true,
-    show_current_context_start = true,
 }
 require'nvim-treesitter.configs'.setup {
-  ensure_installed = { "javascript", "typescript", "lua", "rust" },
+  ensure_installed = { "javascript", "typescript", "lua", "rust","bash" },
   sync_install = false,
   highlight = { 
     enable = true,

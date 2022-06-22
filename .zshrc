@@ -131,8 +131,6 @@ export PATH=/home/devonlin101/.fnm:$PATH
 eval "`fnm env`"
 
 export FZF_DEFAULT_COMMAND='rg --hidden -l ""'
-export FZF_CTRL_T_COMMAND='rg --hidden -l ""'
-export FZF_ALT_C_COMMAND='rg --hidden -l ""'
 source ~/.local/share/icons-in-terminal/icons_bash.sh
 
 export VOLTA_HOME="$HOME/.volta"

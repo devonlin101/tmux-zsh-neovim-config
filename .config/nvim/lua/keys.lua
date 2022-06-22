@@ -13,10 +13,10 @@ vim.api.nvim_set_keymap('n', '<space>b',
     { noremap = true, silent = true })
 
 map('n','<space>q','<cmd>bd<cr>',{})
+map('n','gd','<Plug>(coc-definition)',{silent=true})
 map('n','<space>n','<cmd>NvimTreeToggle<cr>',{silent=true})
 map('n',']b','<cmd>BufferLineCycleNext<cr>',{silent=true})
 map('n','[b','<cmd>BufferLineCyclePrev<cr>',{silent=true})
-map('n','gd','<Plug>(coc-definition)',{silent=true})
 map('n','<space>e','<cmd>CocCommand explorer<cr>',{silent=true })
 
 vim.cmd [[
@@ -35,7 +35,6 @@ inoremap <silent><expr> <TAB>
       \ <SID>check_back_space() ? "\<TAB>" :
       \ coc#refresh()
 inoremap <expr><S-TAB> pumvisible() ? "\<C-p>" : "\<C-h>"
-
 function! s:check_back_space() abort
   let col = col('.') - 1
   return !col || getline('.')[col - 1]  =~# '\s'
@@ -63,4 +62,3 @@ let g:everforest_current_word = 'bold'
 let g:everforest_better_performance = 1
 let g:coc_global_extensions=['coc-git', 'coc-marketplace', 'coc-prisma', 'coc-webpack', 'coc-simple-react-snippets', 'coc-snippets', 'coc-html', 'coc-rls', 'coc-pairs',  'coc-prettier', 'coc-json', 'coc-highlight', 'coc-emmet', 'coc-spell-checker', 'coc-tsserver', 'coc-css', 'coc-smartf', 'coc-fzf-preview', 'coc-explorer', 'coc-rust-analyzer']
   ]]
-

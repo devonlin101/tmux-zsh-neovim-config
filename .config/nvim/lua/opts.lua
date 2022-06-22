@@ -42,3 +42,4 @@ opt.hidden = true
 opt.timeoutlen = 1000
 opt.updatetime = 300
 opt.ttimeoutlen = 0
+opt.laststatus = 0
