@@ -14,7 +14,9 @@ return require('packer').startup(function()
   use 'lewis6991/gitsigns.nvim'
   use 'wbthomason/packer.nvim'
   use 'sainnhe/everforest'
+  use 'glepnir/dashboard-nvim'
   use 'numToStr/Comment.nvim'
+  use 'sheerun/vim-polyglot'
   use {'neoclide/coc.nvim', branch = 'release'}
   use {
         'nvim-treesitter/nvim-treesitter',

@@ -80,7 +80,7 @@ ZSH_THEME="powerlevel10k/powerlevel10k"
 # Custom plugins may be added to $ZSH_CUSTOM/plugins/
 # Example format: plugins=(rails git textmate ruby lighthouse)
 # Add wisely, as too many plugins slow down shell startup.
-plugins=(git fzf tmux vi-mode dirhistory zsh-z web-search zsh-autosuggestions zsh-syntax-highlighting)
+plugins=(git fzf tmux vi-mode dirhistory zsh-z web-search zsh-autosuggestions zsh-syntax-highlighting zsh-history-substring-search)
 
 source $ZSH/oh-my-zsh.sh
 
@@ -116,6 +116,9 @@ alias t='tmux'
 alias ls='logo-ls'
 alias bat='batcat --paging=never'
 
+bindkey '^[[A' history-substring-search-up
+bindkey '^[[B' history-substring-search-down
+
 # To customize prompt, run `p10k configure` or edit ~/.p10k.zsh.
 [[ ! -f ~/.p10k.zsh ]] || source ~/.p10k.zsh
 
@@ -130,8 +133,9 @@ eval "$(fnm env)"
 export PATH=/home/devonlin101/.fnm:$PATH
 eval "`fnm env`"
 
-export FZF_DEFAULT_COMMAND='rg --hidden -l ""'
-source ~/.local/share/icons-in-terminal/icons_bash.sh
+# export FZF_DEFAULT_COMMAND='find .'
+# export FZF_CTRL_T_COMMAND='$FZF_DEFAULT_COMMAND'
+# source ~/.local/share/icons-in-terminal/icons_bash.sh
 
 export VOLTA_HOME="$HOME/.volta"
 export PATH="$VOLTA_HOME/bin:$PATH"

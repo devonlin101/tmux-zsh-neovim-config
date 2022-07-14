@@ -9,9 +9,13 @@ npm update -g;
 sudo apt-get clean -y;
 sudo apt-get autoclean -y;
 sudo apt-get autoremove -y;
+snap list --all;
+ip a
+ip r
+resolvectl status | grep Current
 df -h;
 free -m;
-snap list --all;
+duf;
 neofetch
 date
 

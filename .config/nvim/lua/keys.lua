@@ -11,8 +11,26 @@ vim.api.nvim_set_keymap('n', '<space>o',
 vim.api.nvim_set_keymap('n', '<space>b',
     "<cmd>lua require('fzf-lua').buffers()<CR>",
     { noremap = true, silent = true })
+vim.api.nvim_set_keymap('n', '<space>r',
+    "<cmd>lua require('fzf-lua').grep_project()<CR>",
+    { noremap = true, silent = true })
+--fzf git commands
+vim.api.nvim_set_keymap('n', '<space>gf',
+    "<cmd>lua require('fzf-lua').git_files()<CR>",
+    { noremap = true, silent = true })
+vim.api.nvim_set_keymap('n', '<space>gs',
+    "<cmd>lua require('fzf-lua').git_status()<CR>",
+    { noremap = true, silent = true })
+vim.api.nvim_set_keymap('n', '<space>gc',
+    "<cmd>lua require('fzf-lua').git_commits()<CR>",
+    { noremap = true, silent = true })
+vim.api.nvim_set_keymap('n', '<space>gb',
+    "<cmd>lua require('fzf-lua').git_branches()<CR>",
+    { noremap = true, silent = true })
+
 
 map('n','<space>q','<cmd>bd<cr>',{})
+map('n','<enter>','o<esc>',{silent=true})
 map('n','gd','<Plug>(coc-definition)',{silent=true})
 map('n','<space>n','<cmd>NvimTreeToggle<cr>',{silent=true})
 map('n',']b','<cmd>BufferLineCycleNext<cr>',{silent=true})
@@ -21,6 +39,9 @@ map('n','<space>e','<cmd>CocCommand explorer<cr>',{silent=true })
 
 vim.cmd [[
 set nofoldenable
+set nobackup
+set nowritebackup
+set shortmess+=c
 function! s:show_documentation()
   if (index(['vim','help'], &filetype) >= 0)
     execute 'h '.expand('<cword>')
